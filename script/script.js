@@ -46,9 +46,16 @@ const loadNewsByCategory = (categoryId) => {
         .then(data => {
             showNewsByCategory(data.articles)
         })
+        .catch(err => {
+            Wrong()
+        })
 }
 
 const showNewsByCategory = (articles) => {
+    if(articles.length === 0){
+        noDataFound()
+        return;
+    }
     newsContainer.innerHTML = '';
     articles.forEach(article => {
         newsContainer.innerHTML += `
@@ -69,6 +76,22 @@ const loading = () => {
     newsContainer.innerHTML = `
     <div class="flex justify-center items-center col-span-4">
                 <span class="loading loading-ring loading-xl w-48 h-48"></span>
+            </div>
+    `
+}
+
+const Wrong = () => {
+        newsContainer.innerHTML = `
+    <div class="flex justify-center items-center col-span-4">
+                <h1 class="text-5xl mt-32 text-red-800">Something went Wrong !</h1>
+            </div>
+    `
+}
+
+const noDataFound = () => {
+            newsContainer.innerHTML = `
+    <div class="flex justify-center items-center col-span-4">
+                <h1 class="text-5xl mt-32 text-red-800">No Data Found !</h1>
             </div>
     `
 }
