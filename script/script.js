@@ -1,4 +1,7 @@
 const categoryContainer = document.getElementById('category-container')
+
+const newsContainer = document.getElementById('news-container')
+
 const loadCategory = () => {
     const url = "https://news-api-fs.vercel.app/api/categories"
     fetch(url)
@@ -40,8 +43,28 @@ const loadNewsByCategory = (categoryId) => {
     fetch(`https://news-api-fs.vercel.app/api/categories/${categoryId}`)
     .then(res => res.json())
     .then(data => {
-        console.log(data)
+        showNewsByCategory(data.articles)
     })
 }
 
+const showNewsByCategory = (articles)=>{
+    newsContainer.innerHTML='';
+    console.log(articles)
+    articles.forEach(article =>{
+        newsContainer.innerHTML+=`
+        <div>
+
+
+        <img src='${article.image.srcset[5].url}'
+        <h1>${article.title}</h1>
+
+        <p>${article.time}</P>
+        
+        
+        </div>
+        `
+    })
+}
+{/* <div></div> */}
 loadCategory()
+loadNewsByCategory('main')
