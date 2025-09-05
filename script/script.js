@@ -20,7 +20,7 @@ const loadCategory = () => {
 const showCategory = (categories) => {
     categories.forEach(cat => {
         categoryContainer.innerHTML += `
-            <li id="${cat.id}" class="font-medium text-lg py-3 hover:border-b-4 hover:border-b-red-800 border-b-red-800 ${cat.id=== 'main' ? 'border-b-4': ''}">${cat.title}</li>
+            <li id="${cat.id}" class="font-medium text-lg py-3 hover:border-b-4 hover:border-b-red-800 border-b-red-800 ${cat.id === 'main' ? 'border-b-4' : ''}">${cat.title}</li>
             `
     });
 
@@ -34,6 +34,7 @@ const showCategory = (categories) => {
         if (e.target.localName === 'li') {
             e.target.classList.add('border-b-4')
         }
+        loading()
 
         loadNewsByCategory(e.target.id)
     })
@@ -41,17 +42,16 @@ const showCategory = (categories) => {
 
 const loadNewsByCategory = (categoryId) => {
     fetch(`https://news-api-fs.vercel.app/api/categories/${categoryId}`)
-    .then(res => res.json())
-    .then(data => {
-        showNewsByCategory(data.articles)
-    })
+        .then(res => res.json())
+        .then(data => {
+            showNewsByCategory(data.articles)
+        })
 }
 
-const showNewsByCategory = (articles)=>{
-    newsContainer.innerHTML='';
-    console.log(articles)
-    articles.forEach(article =>{
-        newsContainer.innerHTML+=`
+const showNewsByCategory = (articles) => {
+    newsContainer.innerHTML = '';
+    articles.forEach(article => {
+        newsContainer.innerHTML += `
         <div class="border border-gray-200 rounded-lg">
 
 
@@ -64,5 +64,15 @@ const showNewsByCategory = (articles)=>{
         `
     })
 }
+
+const loading = () => {
+    newsContainer.innerHTML = `
+    <div class="flex justify-center items-center col-span-4">
+                <span class="loading loading-ring loading-xl w-48 h-48"></span>
+            </div>
+    `
+}
+
+
 loadCategory()
 loadNewsByCategory('main')
